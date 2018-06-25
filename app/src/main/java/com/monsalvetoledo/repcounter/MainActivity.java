@@ -1,5 +1,6 @@
 package com.monsalvetoledo.repcounter;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -141,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_refresh:
                 new FetchWorkouts().execute();
+                return true;
+            case R.id.action_new_workout:
+                Intent intent = new Intent(this, WorkoutActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -36,10 +36,10 @@ public class WorkoutAdapter extends ArrayAdapter<Workout> {
         TextView tv_pushups = (TextView) convertView.findViewById(R.id.textview_pushup_count);
         TextView tv_squats = (TextView) convertView.findViewById(R.id.textview_squat_count);
 
-        tv_month.setText(mWorkouts.get(position).month);
-        tv_day.setText("" + mWorkouts.get(position).day);
-        tv_pushups.setText("" + mWorkouts.get(position).pushups);
-        tv_squats.setText("" + mWorkouts.get(position).squats);
+        tv_month.setText(mWorkouts.get(position).getMonth());
+        tv_day.setText("" + mWorkouts.get(position).getDay());
+        tv_pushups.setText("" + mWorkouts.get(position).getPushups());
+        tv_squats.setText("" + mWorkouts.get(position).getSquats());
 
         return convertView;
     }
