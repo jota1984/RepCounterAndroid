@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/textview_workout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeight">
 
-</TextView>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textview_squat_count"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="8"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textview_day"
+        app:layout_constraintStart_toEndOf="@+id/imageview_squat" />
+
+    <TextView
+        android:id="@+id/textview_month"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Nov"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="25"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textview_month"
+        app:layout_constraintStart_toEndOf="@+id/textview_month" />
+
+    <ImageView
+        android:id="@+id/imageview_squat"
+        android:layout_width="34dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_day"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_squat" />
+
+    <TextView
+        android:id="@+id/textview_pushup_count"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="12"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textview_squat_count"
+        app:layout_constraintStart_toEndOf="@+id/imageview_pushup" />
+
+    <ImageView
+        android:id="@+id/imageview_pushup"
+        android:layout_width="34dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_squat_count"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_pushup" />
+</android.support.constraint.ConstraintLayout>

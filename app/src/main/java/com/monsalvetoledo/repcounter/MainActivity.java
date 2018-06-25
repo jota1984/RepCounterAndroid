@@ -21,35 +21,47 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayAdapter<String> mWorkoutAdapter;
+    private WorkoutAdapter mWorkoutAdapter;
 
-    private class FetchWorkouts extends AsyncTask<Void, Void, String[]> {
-        private String[] parseWorkouts(String jsonStr) throws JSONException {
+    private class FetchWorkouts extends AsyncTask<Void, Void, Workout[]> {
+        private Workout[] parseWorkouts(String jsonStr) throws JSONException {
 
             JSONObject workoutsJson = new JSONObject(jsonStr);
             JSONArray workoutsArray = workoutsJson.getJSONArray("workouts");
+            String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", " Dec"};
 
-            String[] strs = new String[workoutsArray.length()];
+            Workout[] workouts = new Workout[workoutsArray.length()];
 
             for(int i = 0; i < workoutsArray.length(); i++){
-                JSONObject workout = workoutsArray.getJSONObject(i);
-                int pushups = (int) workout.get("pushups");
-                int squats = (int) workout.get("squats");
-                String date = (String) workout.get("start_time");
+                JSONObject workoutJson = workoutsArray.getJSONObject(i);
+                int pushups = (int) workoutJson.get("pushups");
+                int squats = (int) workoutJson.get("squats");
+                String dateStr = (String) workoutJson.get("start_time");
+                Date date;
+                try {
+                    date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateStr);
+                    int month = date.getMonth();
+                    int day = date.getDay();
 
-                strs[i] = date + " " + pushups + " " + squats;
-
+                    Workout workout = new Workout(months[month],day, pushups, squats);
+                    workouts[i] = workout;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
-            return strs;
+            return workouts;
         }
         @Override
-        protected String[] doInBackground(Void... voids) {
+        protected Workout[] doInBackground(Void... voids) {
 
 
             HttpURLConnection urlConnection = null;
@@ -110,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String[] strs) {
+        protected void onPostExecute(Workout[] strs) {
             super.onPostExecute(strs);
             mWorkoutAdapter.clear();
             mWorkoutAdapter.addAll(strs);
@@ -140,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<String> workouts = new ArrayList<>();
-        String[] array = {"test1", "test2"};
-        workouts.addAll(Arrays.asList(array));
+        Workout workout = new Workout("Nov",28,12,12);
+        ArrayList<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
 
-        mWorkoutAdapter = new ArrayAdapter<>(this,R.layout.list_item_workout, workouts );
+        mWorkoutAdapter = new WorkoutAdapter( workouts, this );
 
         ListView listView = findViewById(R.id.listview_workouts);
 
