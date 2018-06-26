@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_refresh"
         android:title="Refresh"
-        app:showAsAction="never"/>
+        android:icon="@drawable/baseline_refresh_24"
+        app:showAsAction="always"/>
     <item android:id="@+id/action_new_workout"
         android:title="New Workout"
-        app:showAsAction="never"/>
+        android:icon="@drawable/baseline_add_circle_outline_24"
+        app:showAsAction="always"/>
 
 </menu>
