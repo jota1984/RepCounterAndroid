@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -22,22 +20,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "RepCounter";
     private WorkoutAdapter mWorkoutAdapter;
 
+
     private class FetchWorkouts extends AsyncTask<Void, Void, Workout[]> {
+        private final String TAG = "FetchWorkouts";
         private Workout[] parseWorkouts(String jsonStr) throws JSONException {
 
             JSONObject workoutsJson = new JSONObject(jsonStr);
             JSONArray workoutsArray = workoutsJson.getJSONArray("workouts");
-            String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", " Dec"};
 
             Workout[] workouts = new Workout[workoutsArray.length()];
 
@@ -46,17 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 int pushups = (int) workoutJson.get("pushups");
                 int squats = (int) workoutJson.get("squats");
                 String dateStr = (String) workoutJson.get("start_time");
-                Date date;
-                try {
-                    date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateStr);
-                    int month = date.getMonth();
-                    int day = date.getDay();
-
-                    Workout workout = new Workout(months[month],day, pushups, squats);
-                    workouts[i] = workout;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                Workout workout = new Workout(dateStr, pushups, squats);
+                workouts[i] = workout;
             }
 
             return workouts;
@@ -98,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
                 workoutsJsonStr = buffer.toString();
 
-                Log.v("FetchWorkouts",workoutsJsonStr);
+                Log.v(TAG,workoutsJsonStr);
             } catch (IOException e) {
-                Log.e("FetchWorkouts", "Error ", e);
+                Log.e(TAG, "Error ", e);
                 return null;
             } finally{
                 if (urlConnection != null) {
@@ -110,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.e("FetchWorkouts", "Error closing stream", e);
+                        Log.e(TAG, "Error closing stream", e);
                     }
                 }
             }
@@ -157,16 +144,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // create dummy data
         Workout workout = new Workout("Nov",28,12,12);
         ArrayList<Workout> workouts = new ArrayList<>();
         workouts.add(workout);
 
+        // set adapter with dummy data
         mWorkoutAdapter = new WorkoutAdapter( workouts, this );
-
         ListView listView = findViewById(R.id.listview_workouts);
-
         listView.setAdapter(mWorkoutAdapter);
 
-
+        // update with real data
+        new FetchWorkouts().execute();
     }
 }
