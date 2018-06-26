@@ -14,12 +14,12 @@ import java.util.Map;
 
 public class WorkoutWebSocket extends WebSocketClient {
 
-    private Activity mActivity;
+    private WorkoutActivity mActivity;
     private final String TAG = "WorkoutWebSocket";
     private final String SUBSCRIBE_CMD =
             "{\"command\": \"subscribe\",\"identifier\":\"{\\\"channel\\\":\\\"CurrentWorkoutChannel\\\"}\"}";
 
-    public WorkoutWebSocket(Activity activity, URI uri, Map <String,String> headers ){
+    public WorkoutWebSocket(WorkoutActivity activity, URI uri, Map <String,String> headers ){
         super(uri,headers);
         mActivity = activity;
     }
@@ -41,11 +41,13 @@ public class WorkoutWebSocket extends WebSocketClient {
                     if (json.has("squats")){
                         int squats = json.getInt("squats");
                         TextView tv = mActivity.findViewById(R.id.textview_squat_count_detail);
+                        mActivity.playDing();
                         tv.setText("" + squats);
                         Log.i(TAG, "squats " + squats);
                     } else if ( json.has("pushups")){
                         int pushups = json.getInt("pushups");
                         TextView tv = mActivity.findViewById(R.id.textview_pushup_count_detail);
+                        mActivity.playDing();
                         tv.setText("" + pushups);
                         Log.i(TAG, "pushups " + pushups);
                     }

@@ -1,5 +1,7 @@
 package com.monsalvetoledo.repcounter;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +31,8 @@ public class WorkoutActivity extends AppCompatActivity {
     private String mCreateWorkoutUriStr = "http://18.222.128.16:3000/workouts.json";
     private String mOrigin = "http://18.222.128.16:3000";
     private WorkoutWebSocket mWebSocket;
+    private SoundPool mSoundPool;
+    public int mDingSound;
 
     private class CreateWorkout extends AsyncTask<Void,Void,Workout>{
         private final String TAG = "CreateWorkout";
@@ -122,6 +126,10 @@ public class WorkoutActivity extends AppCompatActivity {
         }
     }
 
+    public void playDing(){
+        mSoundPool.play(mDingSound,1.0f,1.0f,1,0,0);
+    }
+
 
     @Override
     protected void onPause() {
@@ -159,6 +167,7 @@ public class WorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
+        // init end workout button
         Button button = findViewById(R.id.button_end_workout);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +175,10 @@ public class WorkoutActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // init sound pool for rep count alerts
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_NOTIFICATION, 0);
+        mDingSound = mSoundPool.load(this, R.raw.ding, 1);
 
         // Create AsyncTask that POSTs new workout
         new CreateWorkout().execute();
