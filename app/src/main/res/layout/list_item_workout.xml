@@ -11,13 +11,13 @@
         android:id="@+id/textview_squat_count"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:gravity="center"
         android:text="8"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textview_day"
-        app:layout_constraintStart_toEndOf="@+id/imageview_squat" />
+        app:layout_constraintEnd_toStartOf="@+id/imageview_pushup" />
 
     <TextView
         android:id="@+id/textview_month"
@@ -48,10 +48,10 @@
         android:id="@+id/imageview_squat"
         android:layout_width="34dp"
         android:layout_height="32dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/textview_day"
+        app:layout_constraintEnd_toStartOf="@+id/textview_squat_count"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_squat" />
 
@@ -59,22 +59,22 @@
         android:id="@+id/textview_pushup_count"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:gravity="center"
         android:text="12"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textview_squat_count"
-        app:layout_constraintStart_toEndOf="@+id/imageview_pushup" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageview_pushup"
         android:layout_width="34dp"
         android:layout_height="32dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/textview_squat_count"
+        app:layout_constraintEnd_toStartOf="@+id/textview_pushup_count"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_pushup" />
 </android.support.constraint.ConstraintLayout>
