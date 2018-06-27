@@ -125,6 +125,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // update with real data
+        new FetchWorkouts().execute();
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -155,7 +164,5 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listview_workouts);
         listView.setAdapter(mWorkoutAdapter);
 
-        // update with real data
-        new FetchWorkouts().execute();
     }
 }
