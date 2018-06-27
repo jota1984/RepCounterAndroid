@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -28,11 +29,35 @@ public class WorkoutActivity extends AppCompatActivity {
 
     private final String TAG = "WorkoutActivity";
     private String mWebSocketUriStr = "ws://18.222.128.16:3000/cable";
+    private String mEndWorkoutUriStr = "http://18.222.128.16:3000/workouts/";
     private String mCreateWorkoutUriStr = "http://18.222.128.16:3000/workouts.json";
     private String mOrigin = "http://18.222.128.16:3000";
     private WorkoutWebSocket mWebSocket;
     private SoundPool mSoundPool;
+    private int mWorkoutId;
     public int mDingSound;
+
+    private class EndWorkout extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                HttpURLConnection urlConnection = null;
+                URL url = null;
+                url = new URL(mEndWorkoutUriStr + mWorkoutId);
+                Log.v(TAG, url.toString());
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("PUT");
+                urlConnection.connect();
+                Log.v(TAG," connected");
+                // Read the input stream into a String
+                urlConnection.getInputStream();
+            } catch (IOException e) {
+                Log.e(TAG,"Can't end workout");
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     private class CreateWorkout extends AsyncTask<Void,Void,Workout>{
         private final String TAG = "CreateWorkout";
@@ -42,9 +67,11 @@ public class WorkoutActivity extends AppCompatActivity {
 
             int pushups = (int) workoutJson.get("pushups");
             int squats = (int) workoutJson.get("squats");
+            int id = (int) workoutJson.get("id");
+            mWorkoutId = id;
             String dateStr = (String) workoutJson.get("start_time");
 
-            Workout workout = new Workout(dateStr, pushups, squats);
+            Workout workout = new Workout(id, dateStr, pushups, squats);
 
             return workout;
         }
@@ -172,6 +199,7 @@ public class WorkoutActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new EndWorkout().execute();
                 finish();
             }
         });

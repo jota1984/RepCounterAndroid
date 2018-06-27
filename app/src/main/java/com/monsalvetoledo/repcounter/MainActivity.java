@@ -39,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
             for(int i = 0; i < workoutsArray.length(); i++){
                 JSONObject workoutJson = workoutsArray.getJSONObject(i);
+                int id = (int) workoutJson.get("id");
                 int pushups = (int) workoutJson.get("pushups");
                 int squats = (int) workoutJson.get("squats");
                 String dateStr = (String) workoutJson.get("start_time");
-                Workout workout = new Workout(dateStr, pushups, squats);
+                Workout workout = new Workout(id, dateStr, pushups, squats);
                 workouts[i] = workout;
             }
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // create dummy data
-        Workout workout = new Workout("Nov",28,12,12);
+        Workout workout = new Workout(1,"Nov",28,12,12);
         ArrayList<Workout> workouts = new ArrayList<>();
         workouts.add(workout);
 

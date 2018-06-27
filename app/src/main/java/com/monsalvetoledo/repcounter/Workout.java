@@ -5,19 +5,22 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 public class Workout {
-    private  int mPushups;
-    private  int mSquats;
-    private  String mMonth;
-    private  int mDay;
+    private int mPushups;
+    private int mSquats;
+    private String mMonth;
+    private int mDay;
+    private int mId;
 
-    public Workout(String month, int day, int pushups, int squats){
+    public Workout(int id, String month, int day, int pushups, int squats){
+        mId = id;
         mMonth = month;
         mDay = day;
         mPushups = pushups;
         mSquats = squats;
     }
 
-    public Workout(String dateStr, int pushups, int squats){
+    public Workout(int id, String dateStr, int pushups, int squats){
+        mId = id;
         String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", " Dec"};
         Date date;
 
